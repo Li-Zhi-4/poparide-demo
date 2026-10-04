@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type Ref } from "react";
 import { formatMoney } from "@/lib/format";
 import type { Quote } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +13,7 @@ type PriceCardProps = {
   /** Null when no seats are available for the chosen stops. */
   quote: Quote | null;
   onRequest: () => void;
+  requestButtonRef?: Ref<HTMLButtonElement>;
 };
 
 export function PriceCard({
@@ -21,6 +22,7 @@ export function PriceCard({
   departure,
   quote,
   onRequest,
+  requestButtonRef,
 }: PriceCardProps) {
   return (
     <section
@@ -70,7 +72,12 @@ export function PriceCard({
 
       <hr className="border-neutral-200" />
 
-      <Button fullWidth disabled={!quote} onClick={onRequest}>
+      <Button
+        ref={requestButtonRef}
+        fullWidth
+        disabled={!quote}
+        onClick={onRequest}
+      >
         Request to Book
       </Button>
     </section>
