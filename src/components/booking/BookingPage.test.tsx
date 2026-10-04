@@ -1,6 +1,7 @@
-import { render, screen, within } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { demoSelection, demoTrip } from "@/mocks/trip";
+import { triggerIntersection } from "@/test/intersectionObserver";
 import { BookingPage } from "./BookingPage";
 
 function renderPage() {
@@ -64,4 +65,50 @@ it("works from the keyboard", async () => {
   await user.keyboard("{Enter}");
 
   expect(stop("Toronto")).toHaveTextContent("Drop-off");
+});
+
+describe("pinned navbar", () => {
+  const summary = () => screen.getByTestId("navbar-summary");
+
+  it("stays hidden while the price card's button is on screen", () => {
+    renderPage();
+    expect(summary()).toHaveAttribute("inert");
+  });
+
+  it("stays hidden when the button is below the fold, not scrolled past", () => {
+    renderPage();
+    act(() => triggerIntersection({ isIntersecting: false, top: 2000 }));
+    expect(summary()).toHaveAttribute("inert");
+  });
+
+  it("shows route, total and Reserve once the button scrolls under the navbar", () => {
+    renderPage();
+    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
+
+    expect(summary()).not.toHaveAttribute("inert");
+    expect(within(summary()).getByText("Cambridge to Milton")).toBeVisible();
+    expect(within(summary()).getByText("CA$14.94 total")).toBeVisible();
+    expect(
+      within(summary()).getByRole("button", { name: "Reserve" }),
+    ).toBeEnabled();
+  });
+
+  it("follows the passenger's choices", async () => {
+    const { stop, user } = renderPage();
+    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
+
+    await user.click(stop("Mississauga"));
+
+    expect(
+      within(summary()).getByText("Cambridge to Mississauga"),
+    ).toBeVisible();
+    expect(within(summary()).getByText("CA$19.94 total")).toBeVisible();
+  });
+
+  it("hides again when the price card scrolls back into view", () => {
+    renderPage();
+    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
+    act(() => triggerIntersection({ isIntersecting: true, top: 300 }));
+    expect(summary()).toHaveAttribute("inert");
+  });
 });
