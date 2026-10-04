@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens, mirrored from the Poparide Figma variables.
+ *
+ * Tailwind's default colour palette and type scale are reset so that only
+ * these values are available — a one-off hex or font size won't compile into
+ * a utility class. Spacing keeps Tailwind's 4px grid, which the Figma frames
+ * already follow (8 / 12 / 16 / 20 / 24 / 64).
+ */
+@theme {
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  /* Colour */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-orange-primary: #ff3600;
+  --color-orange-fire: #fc6100;
+  --color-blue-primary: #183154;
+  --color-blue-secondary: #456682;
+  --color-blue-border: #d7e6ed;
+  --color-blue-surface: #effaff;
+  --color-neutral-50: #fafafa;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-900: #171717;
+
+  /* Type scale (Figma uses the font's normal line height, set on body) */
+  --text-*: initial;
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.875rem; /* 14 */
+  --text-base: 1rem; /* 16 */
+  --text-lg: 1.125rem; /* 18 */
+  --text-xl: 1.25rem; /* 20 */
+  --text-3xl: 2rem; /* 32 */
+
+  /* Radius */
+  --radius-control: 0.5rem; /* inputs, buttons, selects */
+  --radius-card: 1rem; /* price card, vehicle card */
+
+  /* Layout (1440 frame: 256 gutters, 542 main column, 64 gap, 322 sidebar) */
+  --container-page: 58rem;
+  --container-main: 33.875rem;
+  --container-sidebar: 20.125rem;
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans text-blue-primary antialiased;
+    line-height: normal;
+  }
+}
