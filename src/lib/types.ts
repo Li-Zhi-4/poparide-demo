@@ -65,6 +65,8 @@ export type Trip = {
   id: string;
   stops: Stop[];
   legs: Leg[];
+  /** Passenger seats the driver offers; each leg's `seatsAvailable` ≤ this. */
+  seatsOffered: number;
   bookingFeeCentsPerSeat: number;
   description: string;
   driver: Driver;

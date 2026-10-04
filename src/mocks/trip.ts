@@ -41,12 +41,13 @@ export const demoTrip: Trip = {
     { priceCents: 500, seatsAvailable: 2 }, // Milton → Mississauga
     { priceCents: 600, seatsAvailable: 3 }, // Mississauga → Toronto
   ],
+  seatsOffered: 3,
   bookingFeeCentsPerSeat: 294,
   description:
     "This is where a trip description should go.\nAdd a trip description here.",
   driver: {
     name: "Sara",
-    avatarUrl: "/images/driver-avatar.png",
+    avatarUrl: "/images/driver-avatar.jpg",
     verified: true,
     rating: 5,
     ridesDriven: 23,
@@ -58,7 +59,7 @@ export const demoTrip: Trip = {
     reviews: [
       {
         id: "review-1",
-        author: { name: "Potato", avatarUrl: "/images/driver-avatar.png" },
+        author: { name: "Potato", avatarUrl: "/images/driver-avatar.jpg" },
         role: "passenger",
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
@@ -67,7 +68,7 @@ export const demoTrip: Trip = {
       },
       {
         id: "review-2",
-        author: { name: "Potato", avatarUrl: "/images/driver-avatar.png" },
+        author: { name: "Potato", avatarUrl: "/images/driver-avatar.jpg" },
         role: "passenger",
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
