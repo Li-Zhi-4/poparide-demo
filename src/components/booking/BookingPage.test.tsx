@@ -155,7 +155,7 @@ describe("navbar tabs", () => {
       within(navbarTabs())
         .getAllByRole("link")
         .map((link) => link.getAttribute("href")),
-    ).toEqual(["#overview", "#vehicle", "#about", "#policies"]);
+    ).toEqual(["#overview", "#about", "#policies"]);
   });
 
   it("keeps the summary independent of the tabs", () => {
@@ -192,7 +192,7 @@ describe("active tab", () => {
 
   it("highlights a clicked tab", async () => {
     const { user } = renderPage();
-    await user.click(within(pageTabs()).getByRole("link", { name: "Vehicle" }));
-    expectActive("Vehicle");
+    await user.click(within(pageTabs()).getByRole("link", { name: "About" }));
+    expectActive("About");
   });
 });
