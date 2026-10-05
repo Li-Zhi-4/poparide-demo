@@ -176,3 +176,23 @@ describe("navbar tabs", () => {
     expect(navbarTabs()).toHaveAttribute("inert");
   });
 });
+
+describe("active tab", () => {
+  // Both the page's tabs and the navbar's should agree.
+  const expectActive = (name: string) => {
+    const active = screen.getAllByRole("link", { current: "location" });
+    expect(active).toHaveLength(2);
+    active.forEach((link) => expect(link).toHaveAccessibleName(name));
+  };
+
+  it("starts on Overview", () => {
+    renderPage();
+    expectActive("Overview");
+  });
+
+  it("highlights a clicked tab", async () => {
+    const { user } = renderPage();
+    await user.click(within(pageTabs()).getByRole("link", { name: "Vehicle" }));
+    expectActive("Vehicle");
+  });
+});

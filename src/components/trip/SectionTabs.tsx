@@ -9,8 +9,12 @@ export const sections = [
 
 export type SectionId = (typeof sections)[number]["id"];
 
+export const sectionIds: readonly SectionId[] = sections.map((s) => s.id);
+
 type SectionTabsProps = {
   active?: SectionId;
+  /** Called when a tab is clicked, before the browser scrolls to it. */
+  onNavigate?: (id: SectionId) => void;
   /**
    * "inline" is the 36px strip under the map. "bar" fills the 64px navbar
    * once that strip has scrolled away; the navbar supplies the bottom border.
@@ -22,6 +26,7 @@ type SectionTabsProps = {
 /** In-page links styled as the Figma tabs. */
 export function SectionTabs({
   active = "overview",
+  onNavigate,
   variant = "inline",
   ref,
 }: SectionTabsProps) {
@@ -40,13 +45,23 @@ export function SectionTabs({
             <li key={id} className="flex flex-col">
               <a
                 href={`#${id}`}
+                onClick={() => onNavigate?.(id)}
                 aria-current={isActive ? "location" : undefined}
-                className={`flex flex-1 items-center px-4 pt-1 pb-0.5 text-sm focus-visible:outline-2 focus-visible:outline-orange-primary ${isActive ? "font-bold text-orange-primary" : "font-semibold text-neutral-500 hover:text-blue-primary"}`}
+                className={`flex flex-1 items-center px-4 pt-1 pb-0.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-orange-primary ${isActive ? "font-bold text-orange-primary" : "font-semibold text-neutral-500 hover:text-blue-primary"}`}
               >
-                {label}
+                {/* A hidden bold copy reserves the active width, so tabs don't shift as the highlight moves. */}
+                <span className="grid">
+                  <span className="col-start-1 row-start-1">{label}</span>
+                  <span
+                    aria-hidden
+                    className="invisible col-start-1 row-start-1 font-bold"
+                  >
+                    {label}
+                  </span>
+                </span>
               </a>
               <span
-                className={`h-0.75 rounded-full ${isActive ? "bg-orange-primary" : ""}`}
+                className={`h-0.75 rounded-full transition-colors ${isActive ? "bg-orange-primary" : ""}`}
               />
             </li>
           );

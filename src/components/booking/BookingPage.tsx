@@ -9,6 +9,7 @@ import type {
   StopSelection,
   Trip,
 } from "@/lib/types";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRequestBooking } from "@/hooks/useRequestBooking";
 import { useScrolledPast } from "@/hooks/useScrolledPast";
 import { DriverCard } from "@/components/driver/DriverCard";
@@ -16,7 +17,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Policies } from "@/components/trip/Policies";
 import { RideDescription } from "@/components/trip/RideDescription";
 import { RouteMap } from "@/components/trip/RouteMap";
-import { SectionTabs } from "@/components/trip/SectionTabs";
+import { SectionTabs, sectionIds } from "@/components/trip/SectionTabs";
 import { StopTimeline } from "@/components/trip/StopTimeline";
 import { TripHeader } from "@/components/trip/TripHeader";
 import { VehicleCard } from "@/components/vehicle/VehicleCard";
@@ -51,6 +52,7 @@ export function BookingPage({
   const [tabsRef, tabsHidden] = useScrolledPast<HTMLElement>(64);
   const [requestButtonRef, requestButtonHidden] =
     useScrolledPast<HTMLButtonElement>(64);
+  const [activeSection, selectSection] = useActiveSection(sectionIds, 64);
 
   const pickup = trip.stops[form.selection.pickup];
   const dropoff = trip.stops[form.selection.dropoff];
@@ -96,7 +98,13 @@ export function BookingPage({
   return (
     <>
       <Navbar
-        tabs={<SectionTabs variant="bar" />}
+        tabs={
+          <SectionTabs
+            variant="bar"
+            active={activeSection}
+            onNavigate={selectSection}
+          />
+        }
         showTabs={tabsHidden}
         showSummary={requestButtonHidden}
         summary={{
@@ -143,7 +151,11 @@ export function BookingPage({
             <TripHeader from={pickup.city} to={dropoff.city} />
             <div className="flex flex-col gap-2">
               <RouteMap />
-              <SectionTabs ref={tabsRef} />
+              <SectionTabs
+                ref={tabsRef}
+                active={activeSection}
+                onNavigate={selectSection}
+              />
             </div>
             <div id="overview" className="flex scroll-mt-22 flex-col gap-4">
               <StopTimeline
