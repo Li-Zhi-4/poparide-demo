@@ -53,7 +53,8 @@ export function BookingOptions({
         </Select>
       </div>
 
-      <div className="flex items-start gap-9">
+      {/* On mobile the select drops below the explanation. */}
+      <div className="flex flex-col items-start gap-2 desktop:flex-row desktop:gap-9">
         <div className="flex flex-1 flex-col gap-2">
           <label htmlFor={responseId} className="text-xl font-bold">
             How soon do you need a response?

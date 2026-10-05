@@ -104,9 +104,10 @@ describe("requesting a booking", () => {
 
     await user.click(within(dialog).getByRole("button", { name: "Done" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    // Both the price card and the navbar show it.
+    // The price card, the navbar and the mobile sheet all show it (CSS picks
+    // which are visible, and jsdom doesn't apply it).
     const sentButtons = screen.getAllByRole("button", { name: "Request sent" });
-    expect(sentButtons).toHaveLength(2);
+    expect(sentButtons).toHaveLength(3);
     sentButtons.forEach((button) => expect(button).toBeDisabled());
   });
 

@@ -9,7 +9,7 @@ export function Policies({
     <section
       id="policies"
       aria-label="Policies"
-      className="flex scroll-mt-22 gap-16 text-base"
+      className="flex scroll-mt-22 flex-col gap-4 text-base desktop:flex-row desktop:gap-16"
     >
       <div className="flex flex-1 flex-col gap-4">
         <h2 className="text-xl font-bold">Cancellation Policy</h2>

@@ -48,7 +48,7 @@ export function DriverCard({ driver }: { driver: Driver }) {
       </div>
 
       <ul
-        className="flex gap-6 text-base font-semibold"
+        className="flex flex-wrap gap-x-6 gap-y-2 text-base font-semibold"
         aria-label="Preferences"
       >
         {driver.preferences.map((pref) => (

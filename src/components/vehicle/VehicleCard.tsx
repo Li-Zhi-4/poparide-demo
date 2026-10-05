@@ -15,7 +15,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   return (
     <section
       aria-labelledby="vehicle-name"
-      className="w-sidebar shrink-0 overflow-hidden rounded-card border border-blue-border bg-white"
+      className="w-full shrink-0 overflow-hidden rounded-card border border-blue-border bg-white desktop:w-sidebar"
     >
       {/* Figma crops the square product shot to its top two-thirds. */}
       <Image
@@ -23,7 +23,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
         alt={vehicle.name}
         width={378}
         height={378}
-        sizes="322px"
+        sizes="(min-width: 60rem) 322px, min(100vw, 640px)"
         className="aspect-3/2 w-full border border-neutral-200 object-cover object-top"
       />
       <div className="flex flex-col gap-2 p-5">
