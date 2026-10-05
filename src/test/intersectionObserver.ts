@@ -1,30 +1,33 @@
 /**
- * jsdom has no IntersectionObserver. This stand-in records every observer so
- * tests can fire entries with `triggerIntersection`.
+ * jsdom has no IntersectionObserver. This stand-in records what each observer
+ * watches so tests can fire entries with `triggerIntersection`.
  */
-type Callback = IntersectionObserverCallback;
-const observers = new Set<{
-  callback: Callback;
+type Observation = {
+  callback: IntersectionObserverCallback;
   instance: IntersectionObserver;
-}>();
+  target: Element;
+};
+const observations = new Set<Observation>();
 
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root = null;
   readonly rootMargin = "";
   readonly thresholds = [];
-  private record: { callback: Callback; instance: IntersectionObserver };
 
-  constructor(callback: Callback) {
-    this.record = { callback, instance: this };
+  constructor(private callback: IntersectionObserverCallback) {}
+
+  observe(target: Element) {
+    observations.add({ callback: this.callback, instance: this, target });
   }
-  observe() {
-    observers.add(this.record);
-  }
-  unobserve() {
-    observers.delete(this.record);
+  unobserve(target: Element) {
+    for (const o of observations) {
+      if (o.instance === this && o.target === target) observations.delete(o);
+    }
   }
   disconnect() {
-    observers.delete(this.record);
+    for (const o of observations) {
+      if (o.instance === this) observations.delete(o);
+    }
   }
   takeRecords() {
     return [];
@@ -33,20 +36,25 @@ class MockIntersectionObserver implements IntersectionObserver {
 
 globalThis.IntersectionObserver = MockIntersectionObserver;
 
+/**
+ * Fires an entry for every observed element, or only for `target` if given.
+ * `top` is the element's distance from the top of the viewport.
+ */
 export function triggerIntersection(
-  entry: Pick<IntersectionObserverEntry, "isIntersecting"> & {
-    top: number;
-  },
+  entry: { isIntersecting: boolean; top: number },
+  target?: Element,
 ) {
-  for (const { callback, instance } of observers) {
-    callback(
+  for (const o of observations) {
+    if (target && o.target !== target) continue;
+    o.callback(
       [
         {
+          target: o.target,
           isIntersecting: entry.isIntersecting,
           boundingClientRect: { top: entry.top } as DOMRectReadOnly,
         } as IntersectionObserverEntry,
       ],
-      instance,
+      o.instance,
     );
   }
 }

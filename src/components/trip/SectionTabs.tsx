@@ -1,3 +1,5 @@
+import type { Ref } from "react";
+
 export const sections = [
   { id: "overview", label: "Overview" },
   { id: "vehicle", label: "Vehicle" },
@@ -7,11 +9,31 @@ export const sections = [
 
 export type SectionId = (typeof sections)[number]["id"];
 
+type SectionTabsProps = {
+  active?: SectionId;
+  /**
+   * "inline" is the 36px strip under the map. "bar" fills the 64px navbar
+   * once that strip has scrolled away; the navbar supplies the bottom border.
+   */
+  variant?: "inline" | "bar";
+  ref?: Ref<HTMLElement>;
+};
+
 /** In-page links styled as the Figma tabs. */
-export function SectionTabs({ active = "overview" }: { active?: SectionId }) {
+export function SectionTabs({
+  active = "overview",
+  variant = "inline",
+  ref,
+}: SectionTabsProps) {
   return (
-    <nav aria-label="Trip sections">
-      <ul className="flex h-9 gap-2 border-b border-neutral-200">
+    <nav
+      ref={ref}
+      aria-label="Trip sections"
+      className={variant === "bar" ? "h-full" : undefined}
+    >
+      <ul
+        className={`flex gap-2 ${variant === "inline" ? "h-9 border-b border-neutral-200" : "h-full"}`}
+      >
         {sections.map(({ id, label }) => {
           const isActive = id === active;
           return (
