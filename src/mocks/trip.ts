@@ -93,3 +93,10 @@ export const demoTrip: Trip = {
 
 /** Cambridge → Milton, as searched. */
 export const demoSelection: StopSelection = { pickup: 1, dropoff: 2 };
+
+/** The same search as stop ids, the way a search results link would pass it. */
+export const demoSearch = {
+  tripId: demoTrip.id,
+  from: "cambridge",
+  to: "milton",
+};

@@ -1,11 +1,14 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { demoSelection, demoTrip } from "@/mocks/trip";
 import { triggerIntersection } from "@/test/intersectionObserver";
+import { renderWithQueryClient } from "@/test/render";
 import { BookingPage } from "./BookingPage";
 
 function renderPage() {
-  render(<BookingPage trip={demoTrip} initialSelection={demoSelection} />);
+  renderWithQueryClient(
+    <BookingPage trip={demoTrip} initialSelection={demoSelection} />,
+  );
   const stop = (city: string) =>
     screen.getByRole("button", { name: new RegExp(`^${city}`) });
   const priceCard = () => within(screen.getByRole("region", { name: /to/ }));

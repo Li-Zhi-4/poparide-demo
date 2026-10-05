@@ -1,8 +1,7 @@
 import { useId } from "react";
+import { RESPONSE_WINDOWS } from "@/lib/booking";
 import { HelpTip } from "@/components/ui/HelpTip";
 import { Select } from "@/components/ui/Select";
-
-export const responseWindows = [6, 12, 24, 48] as const;
 
 type BookingOptionsProps = {
   seats: number;
@@ -70,7 +69,7 @@ export function BookingOptions({
           value={responseWindowHours}
           onChange={(e) => onResponseWindowChange(Number(e.target.value))}
         >
-          {responseWindows.map((hours) => (
+          {RESPONSE_WINDOWS.map((hours) => (
             <option key={hours} value={hours}>
               Within {hours} hours
             </option>

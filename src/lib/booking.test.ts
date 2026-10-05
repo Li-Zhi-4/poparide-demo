@@ -5,6 +5,7 @@ import {
   quote,
   seatsAvailable,
   selectStop,
+  selectionFromStopIds,
 } from "./booking";
 import type { StopSelection } from "./types";
 
@@ -158,5 +159,24 @@ describe("clampSeats", () => {
 
   it("returns 0 when nothing is available", () => {
     expect(clampSeats(1, 0)).toBe(0);
+  });
+});
+
+describe("selectionFromStopIds", () => {
+  it("finds the searched stops", () => {
+    expect(selectionFromStopIds(demoTrip, "cambridge", "milton")).toEqual({
+      pickup: CAMBRIDGE,
+      dropoff: MILTON,
+    });
+  });
+
+  it.each([
+    ["an unknown stop", "ottawa", "milton"],
+    ["stops in the wrong order", "milton", "cambridge"],
+  ])("falls back to the whole trip for %s", (_, from, to) => {
+    expect(selectionFromStopIds(demoTrip, from, to)).toEqual({
+      pickup: LONDON,
+      dropoff: TORONTO,
+    });
   });
 });

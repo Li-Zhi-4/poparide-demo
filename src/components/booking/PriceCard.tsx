@@ -5,6 +5,7 @@ import { formatMoney } from "@/lib/format";
 import type { Quote } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
 import { HelpTip } from "@/components/ui/HelpTip";
+import { requestButtonLabel, type RequestStatus } from "./requestStatus";
 
 type PriceCardProps = {
   from: string;
@@ -13,6 +14,7 @@ type PriceCardProps = {
   /** Null when no seats are available for the chosen stops. */
   quote: Quote | null;
   onRequest: () => void;
+  requestStatus?: RequestStatus;
   requestButtonRef?: Ref<HTMLButtonElement>;
 };
 
@@ -22,6 +24,7 @@ export function PriceCard({
   departure,
   quote,
   onRequest,
+  requestStatus = "idle",
   requestButtonRef,
 }: PriceCardProps) {
   return (
@@ -75,10 +78,10 @@ export function PriceCard({
       <Button
         ref={requestButtonRef}
         fullWidth
-        disabled={!quote}
+        disabled={!quote || requestStatus !== "idle"}
         onClick={onRequest}
       >
-        Request to Book
+        {requestButtonLabel(requestStatus, "Request to Book")}
       </Button>
     </section>
   );
