@@ -2,7 +2,6 @@ import type { Ref } from "react";
 
 export const sections = [
   { id: "overview", label: "Overview" },
-  { id: "vehicle", label: "Vehicle" },
   { id: "about", label: "About" },
   { id: "policies", label: "Policies" },
 ] as const;

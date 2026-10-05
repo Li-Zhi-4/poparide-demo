@@ -19,7 +19,6 @@ export function useActiveSection<Id extends string>(
   navbarHeight: number,
 ) {
   const [active, setActive] = useState<Id>(ids[0]!);
-  const activeRef = useRef(active);
   const lockedRef = useRef(false);
   const idleTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -51,10 +50,8 @@ export function useActiveSection<Id extends string>(
           window.scrollY > 0 &&
           window.scrollY + window.innerHeight >=
             document.documentElement.scrollHeight - 2,
-        current: activeRef.current,
       });
-      activeRef.current = next;
-      setActive(next);
+      if (next) setActive(next);
     };
 
     const onScroll = () => {
@@ -79,7 +76,6 @@ export function useActiveSection<Id extends string>(
   /** For tab clicks: highlight `id` now and let the scroll finish first. */
   const select = useCallback(
     (id: Id) => {
-      activeRef.current = id;
       setActive(id);
       lockedRef.current = true;
       // Unlock even if the page doesn't need to scroll at all.

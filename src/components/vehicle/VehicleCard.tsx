@@ -14,9 +14,8 @@ const featureIcon: Record<VehicleFeatureKind, IconName> = {
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   return (
     <section
-      id="vehicle"
       aria-labelledby="vehicle-name"
-      className="w-sidebar shrink-0 scroll-mt-22 overflow-hidden rounded-card border border-blue-border bg-white"
+      className="w-sidebar shrink-0 overflow-hidden rounded-card border border-blue-border bg-white"
     >
       {/* Figma crops the square product shot to its top two-thirds. */}
       <Image
