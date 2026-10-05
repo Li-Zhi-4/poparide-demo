@@ -1,5 +1,8 @@
 import type { Leg, Quote, StopSelection, Trip } from "./types";
 
+/** Hours a driver can be given to respond to a Booking Request. */
+export const RESPONSE_WINDOWS = [6, 12, 24, 48] as const;
+
 export function isValidSelection(
   stopCount: number,
   { pickup, dropoff }: StopSelection,
@@ -73,4 +76,22 @@ export function selectStop(
 /** Keeps a seat count within 1…max (or 0 when nothing is available). */
 export function clampSeats(seats: number, max: number): number {
   return Math.min(Math.max(seats, 1), max);
+}
+
+/**
+ * Turns pick-up and drop-off stop ids (e.g. from a search) into a selection,
+ * falling back to the whole trip if either id is unknown or out of order.
+ */
+export function selectionFromStopIds(
+  trip: Trip,
+  pickupStopId: string,
+  dropoffStopId: string,
+): StopSelection {
+  const selection = {
+    pickup: trip.stops.findIndex((stop) => stop.id === pickupStopId),
+    dropoff: trip.stops.findIndex((stop) => stop.id === dropoffStopId),
+  };
+  return isValidSelection(trip.stops.length, selection)
+    ? selection
+    : { pickup: 0, dropoff: trip.stops.length - 1 };
 }

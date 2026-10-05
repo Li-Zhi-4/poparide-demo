@@ -6,6 +6,9 @@ export type NavbarSummary = {
   /** Formatted total, or null when no seats are left for the chosen stops. */
   total: string | null;
   onReserve: () => void;
+  /** Overrides "Reserve", e.g. while the request is sending. */
+  reserveLabel?: string;
+  reserveDisabled?: boolean;
 };
 
 type NavbarProps = {
@@ -41,10 +44,10 @@ export function Navbar({ summary, showSummary = false }: NavbarProps) {
             </div>
             <Button
               className="h-9"
-              disabled={!summary.total}
+              disabled={!summary.total || summary.reserveDisabled}
               onClick={summary.onReserve}
             >
-              Reserve
+              {summary.reserveLabel ?? "Reserve"}
             </Button>
           </div>
         )}

@@ -94,3 +94,12 @@ export type BookingRequest = {
   responseWindowHours: number;
   message: string;
 };
+
+/** What the API returns once a Booking Request has been sent to the driver. */
+export type BookingConfirmation = {
+  id: string;
+  status: "pending";
+  quote: Quote;
+  /** When the request expires if the driver hasn't responded. */
+  expiresAt: IsoDateTime;
+};
