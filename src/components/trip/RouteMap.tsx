@@ -9,8 +9,9 @@ export function RouteMap() {
       height={431}
       sizes="(min-width: 60rem) 542px, min(100vw, 640px)"
       priority
-      // Edge to edge on mobile, a bordered card on desktop.
-      className="aspect-3012/1198 w-full object-cover desktop:rounded-card desktop:border desktop:border-neutral-200"
+      // Edge to edge while the column fills the screen; a bordered card once
+      // there's space on either side (tablet and desktop).
+      className="aspect-3012/1198 w-full object-cover tablet:rounded-card tablet:border tablet:border-neutral-200"
     />
   );
 }

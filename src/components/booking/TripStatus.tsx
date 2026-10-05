@@ -18,7 +18,7 @@ export function TripSkeleton() {
           <div className={`h-8 w-64 desktop:h-10 desktop:w-80 ${block}`} />
         </div>
         <div
-          className={`aspect-3012/1198 w-full rounded-none desktop:rounded-card ${block}`}
+          className={`aspect-3012/1198 w-full rounded-none tablet:rounded-card ${block}`}
         />
         <div className="flex flex-col">
           {Array.from({ length: 5 }, (_, i) => (
