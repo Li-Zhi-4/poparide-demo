@@ -22,7 +22,10 @@ export function ReviewList({
         <h3 className="text-base font-bold">Reviews</h3>
         <ul className="flex flex-col gap-2">
           {reviews.map((review) => (
-            <li key={review.id} className="flex items-center gap-6">
+            <li
+              key={review.id}
+              className="flex items-start gap-6 desktop:items-center"
+            >
               <Image
                 src={review.author.avatarUrl}
                 alt=""
@@ -32,8 +35,9 @@ export function ReviewList({
               />
               <div className="flex min-w-0 flex-1 flex-col gap-1 text-base">
                 <div>
-                  <div className="flex items-center gap-1">
-                    <p className="flex flex-1 items-center gap-2">
+                  {/* Mobile stacks the rating above the name; desktop puts it at the end of the row. */}
+                  <div className="flex flex-col items-start gap-1 desktop:flex-row desktop:items-center">
+                    <p className="flex items-center gap-2 desktop:flex-1">
                       <span className="font-semibold">
                         {review.author.name}
                       </span>
@@ -45,15 +49,16 @@ export function ReviewList({
                         {roleLabel[review.role]}
                       </span>
                     </p>
-                    <Icon name="star" box={18} />
-                    <p className="font-semibold">
+                    <p className="flex items-center gap-1 font-semibold max-desktop:order-first">
+                      <Icon name="star" box={18} />
                       <span className="sr-only">Rated </span>
                       {review.rating.toFixed(1)}
                     </p>
                   </div>
                   <p className="font-semibold">
-                    {review.route} on{" "}
-                    <time dateTime={review.date}>
+                    {review.route}
+                    <span className="max-desktop:hidden"> on</span>{" "}
+                    <time dateTime={review.date} className="max-desktop:block">
                       {formatDate(review.date)}
                     </time>
                   </p>

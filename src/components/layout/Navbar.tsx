@@ -37,7 +37,7 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-10 h-16 border-b border-neutral-200 bg-white">
-      <div className="mx-auto flex h-full max-w-page items-center justify-between">
+      <div className="mx-auto flex h-full max-w-mobile items-center justify-between px-4 desktop:max-w-page desktop:px-0">
         {/* Logo and tabs share one grid cell, so swapping them doesn't shift anything. */}
         <div className="grid h-full items-center">
           <div
@@ -57,7 +57,9 @@ export function Navbar({
             <div
               inert={!tabsVisible}
               data-testid="navbar-tabs"
-              className={`col-start-1 row-start-1 h-full ${layerClass(tabsVisible)}`}
+              // On mobile the page's tabs are full-bleed, so these line up by
+              // cancelling the navbar's gutter.
+              className={`col-start-1 row-start-1 -ml-4 h-full desktop:ml-0 ${layerClass(tabsVisible)}`}
             >
               {tabs}
             </div>
@@ -68,7 +70,8 @@ export function Navbar({
           <div
             inert={!showSummary}
             data-testid="navbar-summary"
-            className={`flex items-center gap-4 ${layerClass(showSummary)}`}
+            // On mobile the bottom sheet shows this instead.
+            className={`flex items-center gap-4 max-desktop:hidden ${layerClass(showSummary)}`}
           >
             <div className="flex flex-col">
               <p className="text-base font-bold">{summary.route}</p>

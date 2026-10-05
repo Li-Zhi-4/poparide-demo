@@ -23,6 +23,7 @@ import { TripHeader } from "@/components/trip/TripHeader";
 import { VehicleCard } from "@/components/vehicle/VehicleCard";
 import { BookingOptions } from "./BookingOptions";
 import { BookingResultDialog } from "./BookingResultDialog";
+import { BookingSheet } from "./BookingSheet";
 import { MessageField } from "./MessageField";
 import { PriceCard } from "./PriceCard";
 import { requestButtonLabel, type RequestStatus } from "./requestStatus";
@@ -95,6 +96,25 @@ export function BookingPage({
     };
   }
 
+  const total = form.quote
+    ? formatMoney(form.quote.totalCents, { withCurrency: true })
+    : null;
+
+  // The desktop sidebar card and the mobile sheet show the same card; only
+  // one is ever displayed. The desktop one is watched for the navbar summary.
+  const priceCard = (variant: "card" | "sheet") => (
+    <PriceCard
+      variant={variant}
+      from={pickup.city}
+      to={dropoff.city}
+      departure={departure}
+      quote={form.quote}
+      onRequest={requestBooking}
+      requestStatus={requestStatus}
+      requestButtonRef={variant === "card" ? requestButtonRef : undefined}
+    />
+  );
+
   return (
     <>
       <Navbar
@@ -109,9 +129,7 @@ export function BookingPage({
         showSummary={requestButtonHidden}
         summary={{
           route,
-          total: form.quote
-            ? formatMoney(form.quote.totalCents, { withCurrency: true })
-            : null,
+          total,
           onReserve: requestBooking,
           reserveLabel: requestButtonLabel(requestStatus, "Reserve"),
           reserveDisabled: requestStatus !== "idle",
@@ -144,10 +162,16 @@ export function BookingPage({
               : null
         }
       />
-      <main className="mx-auto max-w-page pb-16">
+      {/*
+       * Mobile-first: one column capped at 640px, with the map, stop rows,
+       * tabs and dividers running edge to edge and everything else inset by
+       * a 16px gutter. From the desktop breakpoint it becomes the Figma row
+       * with the price card in a sticky sidebar.
+       */}
+      <main className="mx-auto max-w-mobile pb-32 desktop:max-w-page desktop:pb-16">
         {/* The price card is sticky within this grid, so it stops at About the Driver. */}
-        <div className="grid grid-cols-[minmax(0,var(--container-main))_var(--container-sidebar)] justify-between pt-16">
-          <div className="flex flex-col gap-6">
+        <div className="pt-6 desktop:grid desktop:grid-cols-[minmax(0,var(--container-main))_var(--container-sidebar)] desktop:justify-between desktop:pt-16">
+          <div className="flex flex-col gap-3 desktop:gap-6">
             <TripHeader from={pickup.city} to={dropoff.city} />
             <div className="flex flex-col gap-2">
               <RouteMap />
@@ -166,36 +190,28 @@ export function BookingPage({
                 seats={form.seats}
                 onSelectionChange={edit(form.setSelection)}
               />
-              <BookingOptions
-                seats={form.seats}
-                maxSeats={form.maxSeats}
-                onSeatsChange={edit(form.setSeats)}
-                responseWindowHours={form.responseWindowHours}
-                onResponseWindowChange={edit(form.setResponseWindowHours)}
-              />
-              <RideDescription description={trip.description} />
+              <div className={`flex flex-col gap-4 ${gutter}`}>
+                <BookingOptions
+                  seats={form.seats}
+                  maxSeats={form.maxSeats}
+                  onSeatsChange={edit(form.setSeats)}
+                  responseWindowHours={form.responseWindowHours}
+                  onResponseWindowChange={edit(form.setResponseWindowHours)}
+                />
+                <RideDescription description={trip.description} />
+              </div>
             </div>
           </div>
 
-          <aside>
-            <div className="sticky top-22">
-              <PriceCard
-                from={pickup.city}
-                to={dropoff.city}
-                departure={departure}
-                quote={form.quote}
-                onRequest={requestBooking}
-                requestStatus={requestStatus}
-                requestButtonRef={requestButtonRef}
-              />
-            </div>
+          <aside className="max-desktop:hidden">
+            <div className="sticky top-22">{priceCard("card")}</div>
           </aside>
         </div>
 
         <div className="flex flex-col gap-6 pt-6">
           <hr className="border-neutral-200" />
-          <div className="flex flex-col gap-4">
-            <div className="flex items-start gap-16">
+          <div className={`flex flex-col gap-6 desktop:gap-4 ${gutter}`}>
+            <div className="flex flex-col gap-6 desktop:flex-row desktop:items-start desktop:gap-16">
               <div className="min-w-0 flex-1">
                 <DriverCard driver={trip.driver} />
               </div>
@@ -208,12 +224,26 @@ export function BookingPage({
             />
           </div>
           <hr className="border-neutral-200" />
-          <Policies
-            driverName={trip.driver.name}
-            responseWindowHours={form.responseWindowHours}
-          />
+          <div className={gutter}>
+            <Policies
+              driverName={trip.driver.name}
+              responseWindowHours={form.responseWindowHours}
+            />
+          </div>
         </div>
       </main>
+
+      <BookingSheet
+        route={route}
+        total={total}
+        onReserve={requestBooking}
+        reserveLabel={requestButtonLabel(requestStatus, "Reserve")}
+        reserveDisabled={requestStatus !== "idle"}
+        details={priceCard("sheet")}
+      />
     </>
   );
 }
+
+/** Mobile inset; desktop content already sits inside the 928px page. */
+const gutter = "px-4 desktop:px-0";

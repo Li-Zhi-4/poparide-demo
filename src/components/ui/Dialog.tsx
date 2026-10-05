@@ -28,7 +28,7 @@ export function Dialog({ open, onClose, labelledBy, children }: DialogProps) {
       ref={ref}
       aria-labelledby={labelledBy}
       onClose={onClose}
-      className="m-auto w-full max-w-md rounded-card border border-blue-border bg-white p-6 text-blue-primary backdrop:bg-blue-primary/40"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-card border border-blue-border bg-white p-6 text-blue-primary backdrop:bg-blue-primary/40"
     >
       {open && children}
     </dialog>

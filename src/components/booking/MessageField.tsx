@@ -15,13 +15,13 @@ export function MessageField({
   const id = useId();
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start desktop:flex-row desktop:items-center desktop:justify-between">
         <label htmlFor={id} className="text-xl font-bold">
           Message to {driverName} (optional)
         </label>
         <span className="flex items-center gap-2 text-base font-semibold">
           Private message
-          <HelpTip label="About private messages">
+          <HelpTip label="About private messages" desktopAlign="end">
             {`Only ${driverName} can read this. Share anything that helps them decide, like why you’re travelling.`}
           </HelpTip>
         </span>

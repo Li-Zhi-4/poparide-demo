@@ -1,17 +1,26 @@
 import { useId } from "react";
 import { Icon } from "./Icon";
 
+type HelpTipProps = {
+  label: string;
+  children: string;
+  /**
+   * Where the tooltip sits from the desktop breakpoint up. "end" lines its
+   * right edge up with the icon, for icons at the right edge of the page.
+   */
+  desktopAlign?: "center" | "end";
+};
+
 /**
  * The (?) icon from the design. Shows its explanation on hover and on
  * keyboard focus, and screen readers get the same text via aria-describedby.
+ * The tooltip takes no space until shown, so it can't widen the page.
  */
 export function HelpTip({
   label,
   children,
-}: {
-  label: string;
-  children: string;
-}) {
+  desktopAlign = "center",
+}: HelpTipProps) {
   const id = useId();
   return (
     <span className="group relative inline-flex">
@@ -26,7 +35,7 @@ export function HelpTip({
       <span
         id={id}
         role="tooltip"
-        className="invisible absolute bottom-full left-1/2 z-20 mb-2 w-60 -translate-x-1/2 rounded-control bg-blue-primary px-3 py-2 text-sm font-normal text-white opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+        className={`absolute bottom-full left-1/2 z-20 mb-2 hidden w-60 -translate-x-1/2 rounded-control bg-blue-primary px-3 py-2 text-sm font-normal text-white group-focus-within:block group-hover:block ${desktopAlign === "end" ? "desktop:right-0 desktop:left-auto desktop:translate-x-0" : ""}`}
       >
         {children}
       </span>

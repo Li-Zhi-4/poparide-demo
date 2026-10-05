@@ -8,6 +8,7 @@ const icons = {
   calendar: { width: 13, height: 14.3333 },
   help: { width: 16, height: 16 },
   "chevron-down": { width: 11, height: 6.5 },
+  "chevron-down-white": { width: 14, height: 8 },
   verified: { width: 22.0061, height: 21.9983 },
   star: { width: 16, height: 15.265 },
   "no-strong-scents": { width: 21, height: 21 },

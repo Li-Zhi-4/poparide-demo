@@ -16,6 +16,8 @@ type PriceCardProps = {
   onRequest: () => void;
   requestStatus?: RequestStatus;
   requestButtonRef?: Ref<HTMLButtonElement>;
+  /** "card" is the desktop sidebar; "sheet" sits inside the mobile bottom sheet. */
+  variant?: "card" | "sheet";
 };
 
 export function PriceCard({
@@ -26,14 +28,16 @@ export function PriceCard({
   onRequest,
   requestStatus = "idle",
   requestButtonRef,
+  variant = "card",
 }: PriceCardProps) {
+  const titleId = useId();
   return (
     <section
-      aria-labelledby="price-card-title"
-      className="flex flex-col gap-6 rounded-card border border-blue-border bg-white p-5"
+      aria-labelledby={titleId}
+      className={`flex flex-col bg-white ${variant === "card" ? "gap-6 rounded-card border border-blue-border p-5" : "gap-4"}`}
     >
       <div className="flex flex-col gap-2">
-        <h2 id="price-card-title" className="text-xl font-bold">
+        <h2 id={titleId} className="text-xl font-bold">
           {from} to {to}
         </h2>
         <p className="text-base text-blue-secondary">{departure}</p>
