@@ -53,7 +53,7 @@ export function StopTimeline({
             <button
               type="button"
               onClick={() => onSelectionChange(next)}
-              className="flex h-25 w-full items-center gap-3 rounded-control text-left transition-colors hover:bg-blue-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-primary"
+              className="flex h-25 w-full items-center gap-3 rounded-card px-4 text-left transition-colors hover:bg-blue-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-primary"
             >
               <TimelineMarker
                 dot={dot}

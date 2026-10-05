@@ -46,7 +46,9 @@ export function BookingPage({
   const booking = useRequestBooking(simulation);
   // What the result dialog shows; null while it's closed.
   const [outcome, setOutcome] = useState<Outcome | null>(null);
-  // 64px = the sticky navbar's height.
+  // 64px = the sticky navbar's height. Once the page's tabs slide under it,
+  // the navbar shows the tabs; once the price card's button does, the summary.
+  const [tabsRef, tabsHidden] = useScrolledPast<HTMLElement>(64);
   const [requestButtonRef, requestButtonHidden] =
     useScrolledPast<HTMLButtonElement>(64);
 
@@ -94,6 +96,8 @@ export function BookingPage({
   return (
     <>
       <Navbar
+        tabs={<SectionTabs variant="bar" />}
+        showTabs={tabsHidden}
         showSummary={requestButtonHidden}
         summary={{
           route,
@@ -139,7 +143,7 @@ export function BookingPage({
             <TripHeader from={pickup.city} to={dropoff.city} />
             <div className="flex flex-col gap-2">
               <RouteMap />
-              <SectionTabs />
+              <SectionTabs ref={tabsRef} />
             </div>
             <div id="overview" className="flex scroll-mt-22 flex-col gap-4">
               <StopTimeline

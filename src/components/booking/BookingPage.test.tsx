@@ -70,7 +70,21 @@ it("works from the keyboard", async () => {
   expect(stop("Toronto")).toHaveTextContent("Drop-off");
 });
 
-describe("pinned navbar", () => {
+// The elements the navbar watches, and helpers to scroll them past it.
+const requestButton = () =>
+  within(screen.getByRole("region", { name: /to/ })).getByRole("button", {
+    name: "Request to Book",
+  });
+const pageTabs = () =>
+  screen
+    .getAllByRole("navigation", { name: "Trip sections" })
+    .find((nav) => !nav.closest("header"))!;
+const scrollPast = (element: Element) =>
+  act(() => triggerIntersection({ isIntersecting: false, top: -40 }, element));
+const scrollBack = (element: Element) =>
+  act(() => triggerIntersection({ isIntersecting: true, top: 300 }, element));
+
+describe("navbar summary", () => {
   const summary = () => screen.getByTestId("navbar-summary");
 
   it("stays hidden while the price card's button is on screen", () => {
@@ -80,13 +94,18 @@ describe("pinned navbar", () => {
 
   it("stays hidden when the button is below the fold, not scrolled past", () => {
     renderPage();
-    act(() => triggerIntersection({ isIntersecting: false, top: 2000 }));
+    act(() =>
+      triggerIntersection(
+        { isIntersecting: false, top: 2000 },
+        requestButton(),
+      ),
+    );
     expect(summary()).toHaveAttribute("inert");
   });
 
   it("shows route, total and Reserve once the button scrolls under the navbar", () => {
     renderPage();
-    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
+    scrollPast(requestButton());
 
     expect(summary()).not.toHaveAttribute("inert");
     expect(within(summary()).getByText("Cambridge to Milton")).toBeVisible();
@@ -98,7 +117,7 @@ describe("pinned navbar", () => {
 
   it("follows the passenger's choices", async () => {
     const { stop, user } = renderPage();
-    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
+    scrollPast(requestButton());
 
     await user.click(stop("Mississauga"));
 
@@ -110,8 +129,50 @@ describe("pinned navbar", () => {
 
   it("hides again when the price card scrolls back into view", () => {
     renderPage();
-    act(() => triggerIntersection({ isIntersecting: false, top: -40 }));
-    act(() => triggerIntersection({ isIntersecting: true, top: 300 }));
+    scrollPast(requestButton());
+    scrollBack(requestButton());
     expect(summary()).toHaveAttribute("inert");
+  });
+});
+
+describe("navbar tabs", () => {
+  const logo = () => screen.getByTestId("navbar-logo");
+  const navbarTabs = () => screen.getByTestId("navbar-tabs");
+
+  it("shows the logo until the page's tabs scroll away", () => {
+    renderPage();
+    expect(logo()).not.toHaveAttribute("inert");
+    expect(navbarTabs()).toHaveAttribute("inert");
+  });
+
+  it("swaps the logo for the tabs once the page's tabs slide under the navbar", () => {
+    renderPage();
+    scrollPast(pageTabs());
+
+    expect(logo()).toHaveAttribute("inert");
+    expect(navbarTabs()).not.toHaveAttribute("inert");
+    expect(
+      within(navbarTabs())
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["#overview", "#vehicle", "#about", "#policies"]);
+  });
+
+  it("keeps the summary independent of the tabs", () => {
+    renderPage();
+    scrollPast(pageTabs());
+    expect(screen.getByTestId("navbar-summary")).toHaveAttribute("inert");
+
+    scrollPast(requestButton());
+    expect(screen.getByTestId("navbar-summary")).not.toHaveAttribute("inert");
+    expect(navbarTabs()).not.toHaveAttribute("inert");
+  });
+
+  it("brings the logo back when scrolling up past the page's tabs", () => {
+    renderPage();
+    scrollPast(pageTabs());
+    scrollBack(pageTabs());
+    expect(logo()).not.toHaveAttribute("inert");
+    expect(navbarTabs()).toHaveAttribute("inert");
   });
 });
