@@ -65,7 +65,7 @@ export const demoTrip: Trip = {
         },
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
-        rating: 3.4,
+        rating: 4.1,
         body: "The fastest hunk of junk in the galaxy!",
       },
       {
