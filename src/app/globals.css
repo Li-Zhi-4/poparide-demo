@@ -57,6 +57,11 @@
    * the mobile layout. Styles are mobile-first; `desktop:` adds the row.
    */
   --breakpoint-desktop: 60rem;
+  /*
+   * Just wider than the 640px mobile column: from here the column no longer
+   * touches the screen edges, so edge-to-edge pieces (the map) get framed.
+   */
+  --breakpoint-tablet: 40.0625rem;
 }
 
 @layer base {
