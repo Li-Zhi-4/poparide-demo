@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 
 /** How long the sheet takes to slide open or shut. */
-const SHEET_MS = 400;
+const SHEET_MS = 500;
 
 type BookingSheetProps = {
   route: string;
@@ -74,8 +74,8 @@ export function BookingSheet({
         <Icon
           name="chevron-down-white"
           box={24}
-          // duration-400 matches SHEET_MS, so the chevron turns as the sheet moves.
-          className={`transition-transform duration-400 ease-sheet motion-reduce:transition-none ${expanded ? "" : "rotate-180"}`}
+          // duration-500 matches SHEET_MS, so the chevron turns as the sheet moves.
+          className={`transition-transform duration-500 ease-sheet motion-reduce:transition-none ${expanded ? "" : "rotate-180"}`}
         />
       </button>
 
