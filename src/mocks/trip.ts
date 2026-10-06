@@ -81,7 +81,10 @@ export const demoTrip: Trip = {
       },
       {
         id: "review-3",
-        author: { name: "Potato", avatarUrl: "/images/avatars/potato.png" },
+        author: {
+          name: "Princess Leia",
+          avatarUrl: "/images/avatars/princess-leia.png",
+        },
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
         rating: 3.4,
