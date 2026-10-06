@@ -44,7 +44,7 @@ export const demoTrip: Trip = {
   seatsOffered: 3,
   bookingFeeCentsPerSeat: 294,
   description:
-    "This is where a trip description should go.\nAdd a trip description here.",
+    "The Millennium Falcon is the ship that made the Kessel Run in less than twelve parsecs.",
   driver: {
     name: "Han Solo",
     avatarUrl: "/images/avatars/han-solo.png",
