@@ -46,10 +46,10 @@ export const demoTrip: Trip = {
   description:
     "This is where a trip description should go.\nAdd a trip description here.",
   driver: {
-    name: "Sara",
-    avatarUrl: "/images/driver-avatar.jpg",
+    name: "Han Solo",
+    avatarUrl: "/images/avatars/han-solo.png",
     verified: true,
-    rating: 5,
+    rating: 2.4,
     ridesDriven: 23,
     preferences: [
       { kind: "no-strong-scents", label: "No strong scents" },
@@ -59,21 +59,33 @@ export const demoTrip: Trip = {
     reviews: [
       {
         id: "review-1",
-        author: { name: "Potato", avatarUrl: "/images/driver-avatar.jpg" },
-        role: "passenger",
+        author: {
+          name: "Lando Calrissian",
+          avatarUrl: "/images/avatars/lando-calrissian.png",
+        },
+        route: "London to Guelph",
+        date: "2025-09-21T12:00:00-04:00",
+        rating: 3.4,
+        body: "The fastest hunk of junk in the galaxy!",
+      },
+      {
+        id: "review-2",
+        author: {
+          name: "Luke Skywalker",
+          avatarUrl: "/images/avatars/luke-skywalker.png",
+        },
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
         rating: 1.4,
         body: "What a piece of junk!",
       },
       {
-        id: "review-2",
-        author: { name: "Potato", avatarUrl: "/images/driver-avatar.jpg" },
-        role: "passenger",
+        id: "review-3",
+        author: { name: "Potato", avatarUrl: "/images/avatars/potato.png" },
         route: "London to Guelph",
         date: "2025-09-21T12:00:00-04:00",
         rating: 3.4,
-        body: "The garbage will do.",
+        body: "You scruffy-looking nerf herder!",
       },
     ],
   },

@@ -27,7 +27,6 @@ export type Preference = {
 export type Review = {
   id: string;
   author: { name: string; avatarUrl: string };
-  role: "passenger" | "driver";
   route: string;
   date: IsoDateTime;
   rating: number;
