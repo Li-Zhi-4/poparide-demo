@@ -24,6 +24,7 @@ import { VehicleCard } from "@/components/vehicle/VehicleCard";
 import { BookingOptions } from "./BookingOptions";
 import { BookingResultDialog } from "./BookingResultDialog";
 import { BookingSheet } from "./BookingSheet";
+import { DemoLinks } from "./DemoLinks";
 import { MessageField } from "./MessageField";
 import { PriceCard } from "./PriceCard";
 import { requestButtonLabel, type RequestStatus } from "./requestStatus";
@@ -204,7 +205,11 @@ export function BookingPage({
           </div>
 
           <aside className="max-desktop:hidden">
-            <div className="sticky top-22">{priceCard("card")}</div>
+            <div className="sticky top-22 flex flex-col gap-4">
+              {priceCard("card")}
+              {/* Same 1px border and 20px padding as the card, so the text lines up with its content. */}
+              <DemoLinks className="border-x border-transparent px-5" />
+            </div>
           </aside>
         </div>
 
@@ -239,7 +244,12 @@ export function BookingPage({
         onRequest={requestBooking}
         requestLabel={requestButtonLabel(requestStatus, "Request")}
         requestDisabled={requestStatus !== "idle"}
-        details={priceCard("sheet")}
+        details={
+          <div className="flex flex-col gap-4">
+            {priceCard("sheet")}
+            <DemoLinks />
+          </div>
+        }
       />
     </>
   );
