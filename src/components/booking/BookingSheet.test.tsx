@@ -15,15 +15,16 @@ function renderSheet() {
   return { sheet, user: userEvent.setup() };
 }
 
-// The sheet keeps the expanded card in the DOM (hidden) while collapsed, so
-// text can match twice; this finds the copy the passenger can see.
+// The sheet keeps both its collapsed row and its card in the DOM so it can
+// animate between them; the closed one is aria-hidden. Text can match in
+// both, so this finds the copy the passenger can see.
 function visibleText(
   sheet: ReturnType<typeof within>,
   text: string,
 ): HTMLElement {
   const match = sheet
     .getAllByText(text)
-    .find((element: HTMLElement) => !element.closest("[hidden]"));
+    .find((element: HTMLElement) => !element.closest('[aria-hidden="true"]'));
   if (!match) throw new Error(`No visible "${text}" in the sheet`);
   return match;
 }
@@ -79,4 +80,25 @@ it("follows the passenger's stop choices", async () => {
 
   expect(visibleText(sheet(), "Cambridge to Mississauga")).toBeVisible();
   expect(sheet().getByText("CA$19.94 total")).toBeVisible();
+});
+
+it("keeps whichever part is closed out of reach while it animates", async () => {
+  const { sheet, user } = renderSheet();
+  const panelOf = (button: HTMLElement) =>
+    button.closest("[aria-hidden]") as HTMLElement;
+  const reserve = sheet().getByRole("button", { name: "Reserve" });
+
+  // Collapsed: the card's button is there for the animation, but inert.
+  const requestButton = screen
+    .getAllByRole("button", { name: "Request to Book", hidden: true })
+    .find((button) =>
+      sheet().queryAllByRole("button", { hidden: true }).includes(button),
+    )!;
+  expect(panelOf(requestButton)).toHaveAttribute("inert");
+  expect(panelOf(reserve)).not.toHaveAttribute("inert");
+
+  await user.click(sheet().getByRole("button", { name: "Show price details" }));
+
+  expect(panelOf(requestButton)).not.toHaveAttribute("inert");
+  expect(panelOf(reserve)).toHaveAttribute("inert");
 });
