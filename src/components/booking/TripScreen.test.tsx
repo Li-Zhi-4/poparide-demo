@@ -82,13 +82,13 @@ describe("requesting a booking", () => {
     await tripLoaded();
 
     await user.type(
-      screen.getByRole("textbox", { name: /Message to Sara/ }),
+      screen.getByRole("textbox", { name: /Message to Han Solo/ }),
       "Hi!",
     );
     await user.click(screen.getByRole("button", { name: "Request to Book" }));
 
     const dialog = await screen.findByRole("dialog", {
-      name: "Request sent to Sara",
+      name: "Request sent to Han Solo",
     });
     expect(within(dialog).getByText("CA$14.94")).toBeInTheDocument();
 

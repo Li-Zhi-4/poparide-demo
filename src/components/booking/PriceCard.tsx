@@ -59,8 +59,7 @@ export function PriceCard({
             <dt className="flex items-center gap-1">
               Booking fee
               <HelpTip label="About the booking fee">
-                Charged per seat. Refunded in full if your request is declined,
-                withdrawn or expires.
+                The booking fee helps us run and improve the services.
               </HelpTip>
             </dt>
             <dd>{formatMoney(quote.bookingFeeCents)}</dd>
