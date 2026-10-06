@@ -103,7 +103,7 @@ describe("navbar summary", () => {
     expect(summary()).toHaveAttribute("inert");
   });
 
-  it("shows route, total and Reserve once the button scrolls under the navbar", () => {
+  it("shows route, total and Request once the button scrolls under the navbar", () => {
     renderPage();
     scrollPast(requestButton());
 
@@ -111,7 +111,7 @@ describe("navbar summary", () => {
     expect(within(summary()).getByText("Cambridge to Milton")).toBeVisible();
     expect(within(summary()).getByText("CA$14.94 total")).toBeVisible();
     expect(
-      within(summary()).getByRole("button", { name: "Reserve" }),
+      within(summary()).getByRole("button", { name: "Request" }),
     ).toBeEnabled();
   });
 
