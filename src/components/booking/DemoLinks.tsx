@@ -7,7 +7,7 @@ const links = [
 ] as const;
 
 /** Where the demo came from, shown under the price card. */
-export function DemoLinks() {
+export function DemoLinks({ className = "" }: { className?: string }) {
   const [github, figma] = links.map(({ label, href }) => (
     <a
       key={label}
@@ -22,7 +22,7 @@ export function DemoLinks() {
   ));
 
   return (
-    <p className="text-center text-sm text-blue-secondary">
+    <p className={`text-center text-sm text-blue-secondary ${className}`}>
       See the {github} and {figma} files that helped build this demo.
     </p>
   );

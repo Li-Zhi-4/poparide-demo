@@ -207,7 +207,8 @@ export function BookingPage({
           <aside className="max-desktop:hidden">
             <div className="sticky top-22 flex flex-col gap-4">
               {priceCard("card")}
-              <DemoLinks />
+              {/* Same 1px border and 20px padding as the card, so the text lines up with its content. */}
+              <DemoLinks className="border-x border-transparent px-5" />
             </div>
           </aside>
         </div>
