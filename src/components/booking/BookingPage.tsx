@@ -130,9 +130,9 @@ export function BookingPage({
         summary={{
           route,
           total,
-          onReserve: requestBooking,
-          reserveLabel: requestButtonLabel(requestStatus, "Reserve"),
-          reserveDisabled: requestStatus !== "idle",
+          onRequest: requestBooking,
+          requestLabel: requestButtonLabel(requestStatus, "Request"),
+          requestDisabled: requestStatus !== "idle",
         }}
       />
       <BookingResultDialog
@@ -236,9 +236,9 @@ export function BookingPage({
       <BookingSheet
         route={route}
         total={total}
-        onReserve={requestBooking}
-        reserveLabel={requestButtonLabel(requestStatus, "Reserve")}
-        reserveDisabled={requestStatus !== "idle"}
+        onRequest={requestBooking}
+        requestLabel={requestButtonLabel(requestStatus, "Request")}
+        requestDisabled={requestStatus !== "idle"}
         details={priceCard("sheet")}
       />
     </>

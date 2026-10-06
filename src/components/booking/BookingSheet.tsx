@@ -11,16 +11,16 @@ type BookingSheetProps = {
   route: string;
   /** Formatted total, or null when no seats are left for the chosen stops. */
   total: string | null;
-  onReserve: () => void;
-  reserveLabel: string;
-  reserveDisabled: boolean;
+  onRequest: () => void;
+  requestLabel: string;
+  requestDisabled: boolean;
   /** The full price card, shown when the sheet is expanded. */
   details: ReactNode;
 };
 
 /**
  * The mobile stand-in for the price card: pinned to the bottom of the
- * screen, collapsed to route + total + Reserve, and expandable with the
+ * screen, collapsed to route + total + Request, and expandable with the
  * round tab on its top edge to show the full card.
  *
  * The collapsed row and the card each sit in a grid row that animates
@@ -30,9 +30,9 @@ type BookingSheetProps = {
 export function BookingSheet({
   route,
   total,
-  onReserve,
-  reserveLabel,
-  reserveDisabled,
+  onRequest,
+  requestLabel,
+  requestDisabled,
   details,
 }: BookingSheetProps) {
   const [expanded, setExpanded] = useState(false);
@@ -89,10 +89,10 @@ export function BookingSheet({
           </div>
           <Button
             className="h-9"
-            disabled={!total || reserveDisabled}
-            onClick={onReserve}
+            disabled={!total || requestDisabled}
+            onClick={onRequest}
           >
-            {reserveLabel}
+            {requestLabel}
           </Button>
         </div>
       </SheetPanel>

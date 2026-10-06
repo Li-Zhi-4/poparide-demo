@@ -29,12 +29,12 @@ function visibleText(
   return match;
 }
 
-it("starts collapsed with the route, total and Reserve", () => {
+it("starts collapsed with the route, total and Request", () => {
   const { sheet } = renderSheet();
 
   expect(visibleText(sheet(), "Cambridge to Milton")).toBeVisible();
   expect(sheet().getByText("CA$14.94 total")).toBeVisible();
-  expect(sheet().getByRole("button", { name: "Reserve" })).toBeEnabled();
+  expect(sheet().getByRole("button", { name: "Request" })).toBeEnabled();
   expect(
     sheet().getByRole("button", { name: "Show price details" }),
   ).toHaveAttribute("aria-expanded", "false");
@@ -56,10 +56,10 @@ it("expands to the full price card and collapses again", async () => {
   expect(card.getByRole("textbox", { name: "Promo code" })).toBeVisible();
   expect(card.getByText("CA$14.94")).toBeVisible();
   expect(card.getByRole("button", { name: "Request to Book" })).toBeEnabled();
-  expect(sheet().queryByRole("button", { name: "Reserve" })).toBeNull();
+  expect(sheet().queryByRole("button", { name: "Request" })).toBeNull();
 
   await user.click(sheet().getByRole("button", { name: "Hide price details" }));
-  expect(sheet().getByRole("button", { name: "Reserve" })).toBeVisible();
+  expect(sheet().getByRole("button", { name: "Request" })).toBeVisible();
 });
 
 it("collapses with Escape", async () => {
@@ -86,7 +86,7 @@ it("keeps whichever part is closed out of reach while it animates", async () => 
   const { sheet, user } = renderSheet();
   const panelOf = (button: HTMLElement) =>
     button.closest("[aria-hidden]") as HTMLElement;
-  const reserve = sheet().getByRole("button", { name: "Reserve" });
+  const collapsedRequest = sheet().getByRole("button", { name: "Request" });
 
   // Collapsed: the card's button is there for the animation, but inert.
   const requestButton = screen
@@ -95,10 +95,10 @@ it("keeps whichever part is closed out of reach while it animates", async () => 
       sheet().queryAllByRole("button", { hidden: true }).includes(button),
     )!;
   expect(panelOf(requestButton)).toHaveAttribute("inert");
-  expect(panelOf(reserve)).not.toHaveAttribute("inert");
+  expect(panelOf(collapsedRequest)).not.toHaveAttribute("inert");
 
   await user.click(sheet().getByRole("button", { name: "Show price details" }));
 
   expect(panelOf(requestButton)).not.toHaveAttribute("inert");
-  expect(panelOf(reserve)).toHaveAttribute("inert");
+  expect(panelOf(collapsedRequest)).toHaveAttribute("inert");
 });

@@ -6,10 +6,10 @@ export type NavbarSummary = {
   route: string;
   /** Formatted total, or null when no seats are left for the chosen stops. */
   total: string | null;
-  onReserve: () => void;
-  /** Overrides "Reserve", e.g. while the request is sending. */
-  reserveLabel?: string;
-  reserveDisabled?: boolean;
+  onRequest: () => void;
+  /** Overrides "Request", e.g. while the request is sending. */
+  requestLabel?: string;
+  requestDisabled?: boolean;
 };
 
 type NavbarProps = {
@@ -81,10 +81,10 @@ export function Navbar({
             </div>
             <Button
               className="h-9"
-              disabled={!summary.total || summary.reserveDisabled}
-              onClick={summary.onReserve}
+              disabled={!summary.total || summary.requestDisabled}
+              onClick={summary.onRequest}
             >
-              {summary.reserveLabel ?? "Reserve"}
+              {summary.requestLabel ?? "Request"}
             </Button>
           </div>
         )}
