@@ -196,3 +196,21 @@ describe("active tab", () => {
     expectActive("About");
   });
 });
+
+it("links to the GitHub repo and Figma file under the price card", () => {
+  renderPage();
+  const sidebar = within(screen.getByRole("complementary"));
+
+  expect(sidebar.getByRole("link", { name: /GitHub/ })).toHaveAttribute(
+    "href",
+    "https://github.com/Li-Zhi-4/poparide-demo",
+  );
+  const figma = sidebar.getByRole("link", { name: /Figma/ });
+  expect(figma).toHaveAttribute(
+    "href",
+    expect.stringContaining("figma.com/design/0W8ANZLVT6abxA7QABrkAK"),
+  );
+  // External links open in a new tab, and say so to screen readers.
+  expect(figma).toHaveAttribute("target", "_blank");
+  expect(figma).toHaveAccessibleName("Figma (opens in a new tab)");
+});
