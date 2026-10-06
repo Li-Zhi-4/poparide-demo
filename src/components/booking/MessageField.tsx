@@ -31,7 +31,7 @@ export function MessageField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="e.g. I’m visiting my friends for the weekend and would love a ride with you!"
-        className="h-30 resize-none rounded-control border border-blue-border bg-blue-surface p-4 text-base placeholder:text-blue-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-primary"
+        className="h-30 resize-none rounded-control border border-blue-border bg-blue-surface p-4 text-base placeholder:text-blue-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-primary"
       />
     </div>
   );
