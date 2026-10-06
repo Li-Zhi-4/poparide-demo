@@ -104,7 +104,7 @@ function PromoCode() {
         setMessage(`“${code.trim()}” isn’t a valid promo code.`);
       }}
     >
-      <div className="flex h-9 items-center justify-between rounded-control border border-blue-border bg-blue-surface px-3 py-1 text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-orange-primary">
+      <div className="flex h-9 items-center justify-between rounded-control border border-blue-border bg-blue-surface px-3 py-1 text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-primary">
         <label htmlFor={inputId} className="sr-only">
           Promo code
         </label>

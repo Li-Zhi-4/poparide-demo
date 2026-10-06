@@ -8,7 +8,7 @@ export function Select({ className = "", children, ...props }: SelectProps) {
   return (
     <div className={`relative shrink-0 ${className}`}>
       <select
-        className="h-13.5 w-full appearance-none rounded-control border border-blue-border bg-blue-surface py-2 pr-9 pl-4 text-sm text-blue-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-primary"
+        className="h-13.5 w-full appearance-none rounded-control border border-blue-border bg-blue-surface py-2 pr-9 pl-4 text-sm text-blue-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-primary"
         {...props}
       >
         {children}
